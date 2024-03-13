@@ -11,6 +11,7 @@ Type:
   autodocs?: boolean | 'tag';
   defaultName?: string;
   docsMode?: boolean;
+  toc?: boolean | object;
 }
 ```
 
@@ -74,3 +75,15 @@ Only show documentation pages in the sidebar (usually set with the `--docs` CLI 
 />
 
 <!-- prettier-ignore-end -->
+
+## `toc`
+
+Type: `boolean | object`
+
+Default: `false`
+
+Enables or disables table of contents generation for documentation pages.
+
+- `true`: Enables it for all docs
+- `false`: Disables it for all docs
+- `{}`: Advanced configuration, see [auto-generated documentation](../writing-docs/autodocs.md)
