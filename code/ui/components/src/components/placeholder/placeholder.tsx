@@ -9,7 +9,11 @@ const Desc = styled.div();
 
 const Message = styled.div(({ theme }) => ({
   padding: 30,
-  textAlign: 'center',
+  height: '100%',
+  justifyContent: 'center',
+  alignItems: 'center',
+  display: 'flex',
+  flexDirection: 'column',
   color: theme.color.defaultText,
   fontSize: theme.typography.size.s2 - 1,
 }));

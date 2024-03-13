@@ -119,6 +119,8 @@ export interface TabsProps {
   }>[];
   id?: string;
   tools?: ReactNode;
+  showToolsWhenEmpty?: boolean;
+  customEmptyContent?: ReactNode;
   selected?: string;
   actions?: {
     onSelect: (id: string) => void;
@@ -140,6 +142,8 @@ export const Tabs: FC<TabsProps> = memo(
     backgroundColor,
     id: htmlId,
     menuName,
+    customEmptyContent,
+    showToolsWhenEmpty,
   }) => {
     const idList = childrenToList(children)
       .map((i) => i.id)
@@ -157,7 +161,17 @@ export const Tabs: FC<TabsProps> = memo(
 
     const { visibleList, tabBarRef, tabRefs, AddonTab } = useList(list);
 
-    return list.length ? (
+    const EmptyState = customEmptyContent ?? (
+      <Placeholder>
+        <Fragment key="title">Nothing found</Fragment>
+      </Placeholder>
+    );
+
+    if (!showToolsWhenEmpty && list.length === 0) {
+      return EmptyState;
+    }
+
+    return (
       <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
         <FlexBar scrollable={false} border backgroundColor={backgroundColor}>
           <TabBar style={{ whiteSpace: 'normal' }} ref={tabBarRef} role="tablist">
@@ -190,15 +204,13 @@ export const Tabs: FC<TabsProps> = memo(
           {tools}
         </FlexBar>
         <Content id="panel-tab-content" bordered={bordered} absolute={absolute}>
-          {list.map(({ id, active, render }) => {
-            return React.createElement(render, { key: id, active }, null);
-          })}
+          {list.length
+            ? list.map(({ id, active, render }) => {
+                return React.createElement(render, { key: id, active }, null);
+              })
+            : EmptyState}
         </Content>
       </Wrapper>
-    ) : (
-      <Placeholder>
-        <Fragment key="title">Nothing found</Fragment>
-      </Placeholder>
     );
   }
 );
